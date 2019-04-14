@@ -76,8 +76,8 @@ class MadPaint3000(Frame):
         self.canv.bind("<ButtonRelease-1>", self.reset)# рисовалка
 
 # ряд цветов
-        color_lab = Label(self, text="Цвета: ") 
-        color_lab.grid(row=0, column=0, padx=6)
+        colorpanel = Label(self, text="Цвета: ") 
+        colorpanel.grid(row=0, column=0, padx=6)
 
         red_btn = Button(self, background="red", width=2,
                          command=lambda: self.set_color("red"))
@@ -148,8 +148,8 @@ class MadPaint3000(Frame):
         magenta_btn.grid(row=1, column=7,sticky=W)     
 
 #инструменты
-        instr_lab = Label(self, text="Инструменты: ") 
-        instr_lab.grid(row=0, column=8, padx=6) # Устанавливаем созданную метку в первый ряд и первую колонку, задаем горизонтальный отступ в 6 пикселей
+        toolpanel = Label(self, text="Инструменты: ") 
+        toolpanel.grid(row=0, column=8, padx=6) # Устанавливаем созданную метку в первый ряд и первую колонку, задаем горизонтальный отступ в 6 пикселей
 
 
         lastik_btn = Button(self,text="Ластик", width=10,
@@ -166,8 +166,8 @@ class MadPaint3000(Frame):
 
         
 # ряд кистей, выбор размера кисти
-        size_lab = Label(self, text="Размер кисти: ")
-        size_lab.grid(row=2, column=0, padx=0)
+        panelkisti = Label(self, text="Размер кисти: ")
+        panelkisti.grid(row=2, column=0, padx=0)
         one_btn = Button(self, text="2", width=2,
                          command=lambda: self.set_brush_size(2))
         one_btn.grid(row=2, column=1)
