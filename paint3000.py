@@ -4,7 +4,7 @@ from tkinter import ttk, colorchooser, filedialog
 import PIL
 from PIL import Image, ImageDraw, ImageGrab
 
-class MadPaint3000(Frame):
+class Paint3000(Frame):
 
     def __init__(self, master):
         
@@ -12,6 +12,8 @@ class MadPaint3000(Frame):
         self.master = master
         self.color = "black"
         self.brush_size = 7
+        self.color2 = "white"
+        self.lastik_size = 5
         self.GUI()
         self.color_fg = "black"
         self.old_x = None
@@ -19,9 +21,15 @@ class MadPaint3000(Frame):
         
     def set_color(self, new_color):
         self.color = new_color
+        
+    def set_color2(self, new_color2):
+        self.color2 = new_color2
 
     def set_brush_size(self, new_size):
         self.brush_size = new_size
+        
+    def set_lastik_size(self, new_lastik):
+        self.lastik_size = new_lastik
 
     def change_fg(self): #палитра
         self.color=colorchooser.askcolor(color=self.color)[1]
@@ -29,6 +37,13 @@ class MadPaint3000(Frame):
     def draw(self, event): #рисовалка       
         if self.old_x and self.old_y:
             self.canv.create_line(self.old_x,self.old_y,event.x,event.y,width=self.brush_size,fill=self.color,capstyle=ROUND,smooth=True)
+
+        self.old_x = event.x
+        self.old_y = event.y
+        
+    def lastik(self, event):     
+        if self.old_x and self.old_y:
+            self.canv.create_line(self.old_x,self.old_y,event.x,event.y,width=self.lastik_size,fill=self.color2,capstyle=ROUND,smooth=True)
 
         self.old_x = event.x
         self.old_y = event.y
@@ -70,6 +85,9 @@ class MadPaint3000(Frame):
         
         self.canv.bind("<B1-Motion>", self.draw)
         self.canv.bind("<ButtonRelease-1>", self.reset)# рисовалка
+        
+        self.canv.bind("<B3-Motion>", self.lastik)
+        self.canv.bind("<ButtonRelease-3>", self.reset)
 
         colorpanel = Label(self, text="Цвета: ") # ряд цветов
         colorpanel.grid(row=0, column=0, padx=6)
@@ -147,14 +165,32 @@ class MadPaint3000(Frame):
 
 
         lastik_btn = Button(self,text="Ластик", width=10,
-                           command=lambda: self.set_color("white"))
+                           command=lambda: self.set_color2("white"))
         lastik_btn.grid(row=0, column=9)
 
         clear_btn = Button(self, text="Очистить все", width=10,
                            command=lambda: self.canv.delete("all"))
         clear_btn.grid(row=0, column=11)
-
         
+        lastiksizepanel = Label(self, text="Размер ластика: ") #
+        lastiksizepanel.grid(row=2, column=8, padx=6) #
+        
+        lastiksize = Button(self,text="5px", width=7,
+                           command=lambda: self.set_lastik_size(5))
+        lastiksize.grid(row=2, column=9)
+
+        lastiksize2 = Button(self,text="7px", width=7,
+                           command=lambda: self.set_lastik_size(7))
+        lastiksize2.grid(row=2, column=10)
+
+        lastiksize3 = Button(self,text="10px", width=7,
+                           command=lambda: self.set_lastik_size(10))
+        lastiksize3.grid(row=2, column=11)
+
+        lastiksize4 = Button(self,text="20px", width=7,
+                           command=lambda: self.set_lastik_size(20))
+        lastiksize4.grid(row=2, column=12)
+
         panelkisti = Label(self, text="Размер кисти: ") # ряд кистей, выбор размера кисти
         panelkisti.grid(row=2, column=0, padx=0)
         one_btn = Button(self, text="2", width=2,
@@ -202,7 +238,7 @@ class MadPaint3000(Frame):
 def main(): #okno
     root = Tk()
     root.geometry("1024x768")
-    app = MadPaint3000(root)
+    app = Paint3000(root)
     root.mainloop()
 
 if __name__ == '__main__':
