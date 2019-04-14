@@ -1,7 +1,6 @@
 ﻿from tkinter import *
 from tkinter import messagebox as tkMessageBox
 from tkinter import ttk, colorchooser, filedialog
-#import initState as init
 import PIL
 from PIL import Image, ImageDraw, ImageGrab
 
@@ -17,20 +16,17 @@ class MadPaint3000(Frame):
         self.color_fg = "black"
         self.old_x = None
         self.old_y = None
-        #init.initMenubar(self)
-        #init.initToolbar(self)
         
     def set_color(self, new_color):
         self.color = new_color
 
     def set_brush_size(self, new_size):
         self.brush_size = new_size
-#палитра
-    def change_fg(self):
+
+    def change_fg(self): #палитра
         self.color=colorchooser.askcolor(color=self.color)[1]
 
-#рисовалка
-    def draw(self, event):        
+    def draw(self, event): #рисовалка       
         if self.old_x and self.old_y:
             self.canv.create_line(self.old_x,self.old_y,event.x,event.y,width=self.brush_size,fill=self.color,capstyle=ROUND,smooth=True)
 
@@ -40,8 +36,8 @@ class MadPaint3000(Frame):
     def reset(self,event):
         self.old_x = None
         self.old_y = None
-#сохранение
-    def save(self):
+
+    def save(self): #сохранение
         file = filedialog.asksaveasfilename(filetypes=[('Portable Network Graphics','*.png')])
         if file:
             x = self.master.winfo_rootx() + self.canv.winfo_x()
@@ -50,8 +46,8 @@ class MadPaint3000(Frame):
             y1 = y + self.canv.winfo_height()
 
             PIL.ImageGrab.grab().crop((x,y,x1,y1)).save(file + '.png')
-#це кнопки информации
-    def about(self):
+
+    def about(self): #це кнопки информации
         tkMessageBox.showinfo(title="О программе",message="Программа MadPaint3000 создана для курсовой работы. Не является графическим редактором.")
 
     def team(self):
@@ -59,8 +55,8 @@ class MadPaint3000(Frame):
 
     def howto(self):
         tkMessageBox.showinfo(title="MadPaint HELP",message="Для сохранения изображения нажмите 'Файл -> Сохранить как...'. Если количество предоставленных цветов Вас не устраивает, вы можете вызвать меню палитры цветов 'Цвета -> Палитра цветов'.")
-#це интерфейс
-    def GUI(self):
+
+    def GUI(self): #це интерфейс
        
         self.master.title("MadPaint3000")
         self.pack(fill=BOTH, expand=1)
@@ -75,8 +71,7 @@ class MadPaint3000(Frame):
         self.canv.bind("<B1-Motion>", self.draw)
         self.canv.bind("<ButtonRelease-1>", self.reset)# рисовалка
 
-# ряд цветов
-        colorpanel = Label(self, text="Цвета: ") 
+        colorpanel = Label(self, text="Цвета: ") # ряд цветов
         colorpanel.grid(row=0, column=0, padx=6)
 
         red_btn = Button(self, background="red", width=2,
@@ -147,8 +142,7 @@ class MadPaint3000(Frame):
                            command=lambda: self.set_color("magenta"))
         magenta_btn.grid(row=1, column=7,sticky=W)     
 
-#инструменты
-        toolpanel = Label(self, text="Инструменты: ") 
+        toolpanel = Label(self, text="Инструменты: ") #инструменты
         toolpanel.grid(row=0, column=8, padx=6) # Устанавливаем созданную метку в первый ряд и первую колонку, задаем горизонтальный отступ в 6 пикселей
 
 
@@ -156,17 +150,12 @@ class MadPaint3000(Frame):
                            command=lambda: self.set_color("white"))
         lastik_btn.grid(row=0, column=9)
 
-       # pencil_btn = Button(self,text="Карандаш", width=10,
-       #                    command=lambda: self.new_pencil("black")
-       # pencil_btn.grid(row=0, column=10)
-
         clear_btn = Button(self, text="Очистить все", width=10,
                            command=lambda: self.canv.delete("all"))
         clear_btn.grid(row=0, column=11)
 
         
-# ряд кистей, выбор размера кисти
-        panelkisti = Label(self, text="Размер кисти: ")
+        panelkisti = Label(self, text="Размер кисти: ") # ряд кистей, выбор размера кисти
         panelkisti.grid(row=2, column=0, padx=0)
         one_btn = Button(self, text="2", width=2,
                          command=lambda: self.set_brush_size(2))
@@ -191,8 +180,8 @@ class MadPaint3000(Frame):
         twenty_btn = Button(self, text="48", width=2,
                             command=lambda: self.set_brush_size(48))
         twenty_btn.grid(row=2, column=6, sticky=W)
-#менюха
-        menu = Menu(self.master)
+
+        menu = Menu(self.master) #менюха
         self.master.config(menu=menu)
         filemenu = Menu(menu)
         menu.add_cascade(label='Файл',menu=filemenu)
@@ -209,9 +198,8 @@ class MadPaint3000(Frame):
         helpmenu.add_command(label='Команда',command=self.team)
         helpmenu.add_command(label='MadPaint Help',command=self.howto)
         
-#okno
-
-def main():
+        
+def main(): #okno
     root = Tk()
     root.geometry("1024x768")
     app = MadPaint3000(root)
